@@ -28,6 +28,16 @@ class Block:
         self.hash = ''
         
     def merkel_tree(self, trans:list):
+        '''
+        Generates the merkel tree of the transactions.
+
+        Args:
+            trans (list): the transactions to generate the merkel tree.
+
+        Returns:
+            str: the root of merkel tree
+        '''
+        
         if len(trans) == 0:
             return None
 
@@ -40,6 +50,12 @@ class Block:
             return hashlib.sha256(bytes(left+right, 'utf-8')).hexdigest()
         
     def find_nonce(self):
+        '''
+        Finds the nonce of the block.
+
+        Returns:
+            dict: the block
+        '''
         while hashlib.sha256(bytes(str(self.block), 'utf-8')).hexdigest()[0:4] != '0000':
             self.block['header']['nonce'] += 1
         self.hash = hashlib.sha256(bytes(str(self.block), 'utf-8')).hexdigest()

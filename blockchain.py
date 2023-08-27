@@ -81,6 +81,9 @@ def queteTran(walletFrom:Wallet, amount:float, walletTo:Wallet):
 def add_block(wNode:Wallet):
     '''
     Adds a block to the blockchain.
+
+    Args:
+        wNode (Wallet): the wallet (node) that mine the block.
     '''
     global queteTrans
     if len(blocks['blocks']) == 0:
@@ -185,7 +188,7 @@ def init():
 
 def main():
     '''
-    Main function.
+    Main function, just create transfers.
     '''
     if os.path.exists('wallets.json') and os.path.exists('transactions.json') and os.path.exists('blocks.json'):
         load_data()
@@ -216,7 +219,7 @@ def main():
 
 def main2():
     '''
-    Main function.
+    Main function, Creates the transfers and queues them to be processed in one block.
     '''
     if os.path.exists('wallets.json') and os.path.exists('transactions.json') and os.path.exists('blocks.json'):
         load_data()
