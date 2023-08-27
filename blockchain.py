@@ -22,7 +22,7 @@ def load_data():
         global transactions 
         transactions = json.load(fT)
     with open("blocks.json", "r") as fB:
-        global bloks
+        global blocks
         blocks = json.load(fB)
 
 def save_data():
