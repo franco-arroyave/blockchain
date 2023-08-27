@@ -2,3 +2,4 @@
 minitask.ipynb
 *.pdf
 __pycache__
+*.json

@@ -50,12 +50,31 @@ def translate(walletFrom, amount, walletTo):
     save_data()
 
 def hasher(data):
+    '''
+    Hashes data.
+
+    Args:
+        data (str): the data to hash.
+
+    Returns:   
+        str: the hashed data
+    '''
+
     m = hashlib.sha256()
     m.update(bytes(data, 'utf-8'))
     return m
     #return m.hexdigest()
 
 def create_wallet(address):
+    '''
+    Creates a wallet.
+
+    Args:
+        address (str): the address of the wallet.
+    Returns:
+        dict: the wallet.
+    '''
+
     if address not in wallets:
         w = Wallet(address)
         wallets[address] = w.get_wallet()
@@ -65,6 +84,15 @@ def create_wallet(address):
         return {'Error':'Wallet already exists'}
 
 def load_wallet(address:str):
+    '''
+    Loads a wallet to dict wallets .
+    
+    Args:
+        address (str): the address of the wallet.
+        
+    Returns:
+        dict: the wallet
+    '''
     if address in wallets:
         w = Wallet(address)
         w.load(wallets[address])
@@ -83,6 +111,9 @@ def init():
         json.dump(data, archivo)
 
 def main():
+    '''
+    Main function.
+    '''
     load_data()
     while True:
         print('----Main-----\n')
