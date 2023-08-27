@@ -5,7 +5,7 @@ class Transaction:
     Represents a transaction.
     '''
 
-    def __init__(self, id, fromW, toW, amount):
+    def __init__(self, id, fromW, toW, amount, timestamp=time.time()):
         '''
         Initializes a transaction.
         
@@ -20,8 +20,7 @@ class Transaction:
         self.fromW = fromW
         self.toW = toW
         self.amount = amount
-        self.timestamp = time.time()
-        self.id = id
+        self.timestamp = timestamp
 
     def get_id(self):
         '''
