@@ -8,7 +8,7 @@ from block import Block
 
 wallets = {}
 transactions = {}
-queteTrans = []
+queueTrans = []
 blocks = {'blocks':[]}
 
 def load_data():
@@ -56,7 +56,7 @@ def translate(walletFrom:Wallet, amount:float, walletTo:Wallet):
         print({'Error':'Transaction not created'})
     save_data()
 
-def queteTran(walletFrom:Wallet, amount:float, walletTo:Wallet):
+def addTran(walletFrom:Wallet, amount:float, walletTo:Wallet):
     '''
     enqueue transaction for the block.
     
@@ -71,7 +71,7 @@ def queteTran(walletFrom:Wallet, amount:float, walletTo:Wallet):
         id = len(transactions)
     t = walletFrom.withdraw(amount, walletTo.get_address(), id)
     if type(t) is Transaction:
-        queteTrans.append(t.get_transaction())
+        queueTrans.append(t.get_transaction())
         transactions[t.get_id()] = t.get_transaction()
         wallets[walletFrom.get_address()] = walletFrom.get_wallet()
     else:
@@ -85,17 +85,17 @@ def add_block(wNode:Wallet):
     Args:
         wNode (Wallet): the wallet (node) that mine the block.
     '''
-    global queteTrans
+    global queueTrans
     if len(blocks['blocks']) == 0:
         id = 0
         cb = coinbase(wNode)
         phash = hasher(str('0'))
         block = Block(id, [cb.get_transaction()], phash)
-    elif len(queteTrans)>0:
+    elif len(queueTrans)>0:
         id = len(blocks['blocks'])
         cb = coinbase(wNode)
         phash = blocks['blocks'][len(blocks['blocks'])-1]['hash']
-        t = [coinbase(wNode).get_transaction()]+queteTrans
+        t = [coinbase(wNode).get_transaction()]+queueTrans
         block = Block(id, t, phash)
     else:
         print({'Error':'No transaction to add'})
@@ -108,12 +108,12 @@ def add_block(wNode:Wallet):
         toWallet = load_wallet(tran['toW'])
         toWallet.deposit(tranObj)
         wallets[toWallet.get_address()] = toWallet.get_wallet()
-    queteTrans = []
+    queueTrans = []
     save_data()
     
 def coinbase(wNode:Wallet):
     '''
-    Generates a coinbase transaction.
+    Generate a coinbase transaction.
     
     Args:
         wNode (Wallet): the wallet to deposit to.
@@ -239,9 +239,9 @@ def main2():
                 w1 = load_wallet(input('Address Wallet origin: '))
                 w2 = load_wallet(input('Address Wallet destination: '))
                 amount = float(input('Amount: '))
-                queteTran(w1, amount, w2)
+                addTran(w1, amount, w2)
             case '4':
-                add_block(load_wallet(input('Address Wallet origin: ')))
+                add_block(load_wallet(input('Address Wallet mane: ')))
             case '5':
                 break
             case _:
