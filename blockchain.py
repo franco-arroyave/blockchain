@@ -95,7 +95,7 @@ def add_block(wNode:Wallet):
         id = len(blocks['blocks'])
         cb = coinbase(wNode)
         phash = blocks['blocks'][len(blocks['blocks'])-1]['hash']
-        t = [coinbase(wNode).get_transaction()]+queueTrans
+        t = [cb.get_transaction()]+queueTrans
         block = Block(id, t, phash)
     else:
         print({'Error':'No transaction to add'})
@@ -172,19 +172,18 @@ def load_wallet(address:str):
         w.load(wallets[address])
         return w
     else:
-        return {'Error':'Wallet does not exist'}
+        raise Exception('Error', 'Wallet does not exist')
     
 def init():
     '''
     Initializes the files.json.
-    '''
-    data = {}	
+    '''	
     with open("wallets.json", "w") as archivo:
-        json.dump(data, archivo)
+        json.dump(wallets, archivo)
     with open("transactions.json", "w") as archivo:
-        json.dump(data, archivo)
+        json.dump(transactions, archivo)
     with open("blocks.json", "w") as archivo:
-        json.dump(data, archivo)
+        json.dump(blocks, archivo)
 
 def main():
     '''
@@ -195,9 +194,9 @@ def main():
     else:
         init()
     while True:
-        print('----Main-----\n')
+        print('----Menu-----\n')
         print('1. New wallet\n2. Show wallets\n3. Translate\n4. Init')
-        print('5. Exit')
+        print('0. Exit')
         print('\n------------')
         match input('Option: '):
             case '1':
@@ -211,7 +210,7 @@ def main():
                 translate(w1, amount, w2)
             case '4':
                 init()
-            case '5':
+            case '0':
                 save_data()
                 break
             case _:
@@ -226,9 +225,9 @@ def main2():
     else:
         init()
     while True:
-        print('----Main-----\n')
+        print('----Menu-----\n')
         print('1. New wallet\n2. Show wallets\n3. Translate\n4. Add block')
-        print('5. Exit')
+        print('0. Exit')
         print('\n------------')
         match input('Option: '):
             case '1':
@@ -236,13 +235,16 @@ def main2():
             case '2':
                 print(list(wallets.keys()))
             case '3':
-                w1 = load_wallet(input('Address Wallet origin: '))
-                w2 = load_wallet(input('Address Wallet destination: '))
-                amount = float(input('Amount: '))
-                addTran(w1, amount, w2)
+                try:
+                    w1 = load_wallet(input('Address Wallet origin: '))
+                    w2 = load_wallet(input('Address Wallet destination: '))
+                    amount = float(input('Amount: '))
+                    addTran(w1, amount, w2)
+                except Exception as e:
+                    print(e)
             case '4':
-                add_block(load_wallet(input('Address Wallet mane: ')))
-            case '5':
+                add_block(load_wallet(input('Address Wallet mine: ')))
+            case '0':
                 break
             case _:
                 print('Invalid option')
