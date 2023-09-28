@@ -52,6 +52,7 @@ class Block:
     def find_nonce(self):
         '''
         Finds the nonce of the block.
+        In this function established the difficulty of proof of work in four ceros.
 
         Returns:
             dict: the block

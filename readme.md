@@ -2,7 +2,9 @@
 
 ## Instruction
 
-Execute the blockchain.py file, the following menu will be displayed in the console, the .json files are initialized in the repository where the wallets, transactions and blocks will be supported
+Execute the blockchain.py file, the following menu will be displayed in the console, the .json files are initialized in the repository where the wallets, transactions and blocks will be supported.
+
+
 
 ![Alt text](media/image.png)
 
